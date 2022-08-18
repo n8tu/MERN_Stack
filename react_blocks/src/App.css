@@ -1,0 +1,56 @@
+.app {
+  background: #dddddd;
+  margin: 20px auto;
+  width: 1000px;
+  height: 700px;
+  color: red;
+  border: black solid 2px;
+}
+
+.header{
+  display: block;
+  background: #6aa84f;
+  width: 90%;
+  height: 15%;
+  margin:10px auto;
+  border: black solid 2px;
+}
+
+.navigation{
+  background: #6fa8dc;
+  border: black solid 2px;
+  display: inline-block;
+  float:left;
+  margin-left: 5%;
+  height: 60%;
+  width: 20%;
+}
+
+.main{
+  background: #e06666;
+  border: black solid 2px;
+  display: inline-block;
+  margin-right: 5%;
+  float: right;
+  height: 75%;
+  width: 60%;
+  text-align: center;
+}
+
+.subContents{
+  background: #ffd966;
+  display: inline-block;
+  border: black solid 2px;
+  margin: 10px;
+  width: 25%;
+  height: 50%;
+}
+
+.advertisement{
+  background: #b4a7d6;
+  border: black solid 2px;
+  display: block;
+  margin: 10px auto;
+  width: 85%;
+  height: 25%;
+}
