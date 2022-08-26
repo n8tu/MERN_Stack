@@ -1,25 +1,37 @@
-import React , { useState } from "react";
+import React , { useState , useEffect } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.css"
+import { useParams , useHistory } from "react-router";
 
 export default (props) => {
 
     const [title,setTitle] = useState("")
     const [price,setPrice] = useState("")
     const [description,setDescription] = useState("")
+    const { _id } = useParams();
+    const history = useHistory();
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        axios.post("http://localhost:8000/product/new",{title,price,description})
-            .then( () => {
-                // if create post success then refresh all products and send them back to main.
-                axios.get("http://localhost:8000/product")
-                    .then(res => {
-                        props.sendTrigger(res.data)
-                    })
+    // Autofill states when the component is loaded
+    useEffect( () => {
+        axios.get("http://localhost:8000/product/" + _id)
+            .then(res => {
+                setTitle(res.data.title);
+                setDescription(res.data.description)
+                setPrice(res.data.price)
             })
             .catch(err => console.log(err))
+    },[])
 
+    // Update the product and update the DOM by sending the data to main if update is succeed
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        axios.put(`http://localhost:8000/product/${_id}/update`,{title,price,description})
+            .then( res => {
+                axios.get("http://localhost:8000/product")
+                    .then(res => props.sendTrigger(res.data))
+                history.push("/product")
+            })
+            .catch(err => console.log(err))
 
 
         setTitle("")
@@ -27,11 +39,12 @@ export default (props) => {
         setDescription("")
     }
 
+
     return (
         <div className="container w-50 py-4">
             <header className="pb-3 mb-4 border-bottom">
                 <div className="p-4 rounded container-fluid bg-light text-center fw-bolder">
-                    Product Manager
+                    {title}
                 </div>
             </header>
             <form onSubmit={handleSubmit} className="container-fluid p-3 bg-light rounded-5">

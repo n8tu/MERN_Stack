@@ -21,5 +21,21 @@ module.exports = {
         Product.findOne({_id:req.params._id})
             .then(product => res.json(product))
             .catch(err => res.json(err))
-    }
+    },
+    delete: (req , res) => {
+        Product.deleteOne({_id:req.params._id})
+            .then(product => res.json(product))
+            .catch(err => res.json(err))
+    },
+    update: (req , res) => {
+        Product.updateOne({_id:req.params._id},{
+            title: req.body.title,
+            price: req.body.price,
+            description: req.body.description
+        })
+            .then(() => res.json({
+                message: "Your product has been updated successfully"
+            }))
+            .catch( (err) => res.json(err))
+    },
 }

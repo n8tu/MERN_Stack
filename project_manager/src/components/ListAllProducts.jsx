@@ -1,13 +1,31 @@
-import React from "react";
+import React, {useState} from "react";
 import {useHistory} from "react-router";
-
+import pencil_fill from "bootstrap-icons/icons/pencil-fill.svg"
+import trash from "bootstrap-icons/icons/trash.svg"
+import axios from "axios";
 export default (props) => {
 
     const history = useHistory();
 
+    // Redirect to show product path
     const showProduct = (e,_id) => {
         e.preventDefault()
         history.push("/product/"+ _id)
+    }
+
+    // Redirect to edit product path
+    const editProduct = (e,_id) => {
+        e.preventDefault()
+        history.push("/product/"+ _id + "/edit")
+    }
+
+    // Delete Product and update the list in DOM by sending data to main
+    const deleteProduct = (e,_id) => {
+        axios.delete(`http://localhost:8000/product/${_id}/delete`)
+            .then(() => {
+                axios.get("http://localhost:8000/product")
+                    .then(res => props.sendTrigger(res.data))
+        });
     }
 
     return(
@@ -19,7 +37,17 @@ export default (props) => {
                 <ul className={"list-group text-center"}>
                     {props.products.map( (product,i) =>
                         <li key={i} className={"list-group-item"}>
-                            <a onClick={(e) => showProduct(e,product._id)}>{product.title}</a>
+                            <div className="row text-center">
+                                <div className="col-10 fw-semibold">
+                                    <p onClick={(e) => showProduct(e,product._id)}>{product.title}</p>
+                                </div>
+                                <div className="col-1">
+                                    <img  onClick={(e) => editProduct(e,product._id)} src={pencil_fill}/>
+                                </div>
+                                <div className="col-1">
+                                    <img onClick={(e) => deleteProduct(e,product._id)} src={trash}/>
+                                </div>
+                            </div>
                         </li>
                     )}
                 </ul>
