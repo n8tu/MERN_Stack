@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import CreateProductForm from "../components/CreateProductForm";
 import ListAllProducts from "../components/ListAllProducts";
-import {BrowserRouter , Switch , Route} from "react-router-dom";
+import {BrowserRouter, Switch, Route, Redirect} from "react-router-dom";
 import axios from "axios";
 import ProductDetails from "../components/ProductDetails";
 import UpdateProductForm from "../components/UpdateProductForm";
@@ -40,6 +40,9 @@ export default () => {
                     <CreateProductForm sendTrigger={triggerProducts}/>
                     <hr className={"w-75 mx-auto my-3"}/>
                     {loaded && <ListAllProducts products={products} sendTrigger={triggerProducts} />}
+                </Route>
+                <Route>
+                    <Redirect to={"/product"}/>
                 </Route>
             </Switch>
         </BrowserRouter>
