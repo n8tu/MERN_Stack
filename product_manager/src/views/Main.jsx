@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import ProductForm from "../components/ProductForm";
+import CreateProductForm from "../components/CreateProductForm";
 import ListAllProducts from "../components/ListAllProducts";
 import {BrowserRouter, Switch, Route, Redirect} from "react-router-dom";
 import axios from "axios";
@@ -11,13 +11,10 @@ export default () => {
     const [products,setProducts] = useState([])
     const [loaded,setLoaded] = useState(false)
 
-    const createProduct = (form_data) => {
-        axios.post("http://localhost:8000/product/new",form_data)
-            .then( (res) => {
-                setProducts([...products,res.data])
-            })
+    // refresh data after each create or update or delete
+    const triggerProducts = (data) => {
+        setProducts(data);
     }
-
 
     // Autofill states when the component is loaded
     useEffect(() => {
